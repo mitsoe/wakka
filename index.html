@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <title>Ijsberen en wakkas</title>
+</head>
+<style>
+    body {
+        background-color: #ecf0f1;
+        color: #34495e;
+    }
+
+    #rollDice,
+    #showResult {
+        background-color: #2980b9;
+        height: 100px;
+        text-align: center;
+        line-height: 100px;
+        color: white;
+        font-size: 30px;
+    }
+
+    #showResult {
+        display: none;
+    }
+
+    .dice {
+        font-size: 200px;
+        float: left;
+        width: 33%;
+        text-align: center;
+    }
+
+    .dices {
+        display: block;
+        height: 250px;
+    }
+
+    #result {
+        font-size: 30px;
+        color: #3498db;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div id="rollDice">Dobbelen</div>
+
+    <div class="dices">
+        <div class="dice"></div>
+        <div class="dice"></div>
+        <div class="dice"></div>
+    </div>
+
+    <div id="showResult">Antwoord</div>
+    <div id="result"></div>
+
+    <script>
+        var dices = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;'];
+        document.getElementById("rollDice").onclick = function () { rollDice() };
+        document.getElementById("showResult").onclick = function () { showResult() };
+
+        function rollDice() {
+            hideResult();
+            const dice1 = getDiceValue();
+            const dice2 = getDiceValue();
+            const dice3 = getDiceValue();
+            const diceValues = [dice1, dice2, dice3];
+            setDiceValue(diceValues);
+            setResult(calculateResult(diceValues))
+        }
+
+        function showResult() {
+            document.getElementById("result").style.display = 'block';
+            document.getElementById("showResult").style.display = 'none';
+        }
+
+        function hideResult() {
+            document.getElementById("result").style.display = 'none';
+            document.getElementById("showResult").style.display = 'block';
+        }
+
+        function setDiceValue(aDiceValues) {
+            for (i = 0; i < aDiceValues.length; i++) {
+                document.getElementsByClassName('dice')[i].innerHTML = dices[aDiceValues[i] - 1];
+            }
+        }
+
+        function setResult(aResult) {
+            var wakken = 'wakken';
+            if (aResult[0] == 1) {
+                wakken = 'wak';
+            }
+            document.getElementById("result").innerHTML = `${aResult[0]} ${wakken} & ${aResult[1]} Ijsberen`;
+        }
+
+        function getDiceValue() {
+            return Math.floor((Math.random() * 6) + 1);
+        }
+
+        function calculateResult(aDiceValues) {
+            var wakken = 0;
+            var ijsberen = 0;
+            for (i = 0; i < aDiceValues.length; i++) {
+                if (aDiceValues[i] % 2 != 0) {
+                    wakken++;
+                    ijsberen = ijsberen + aDiceValues[i] - 1
+                }
+            }
+            return [wakken, ijsberen]
+        }
+    </script>
+</body>
+
+</html>
